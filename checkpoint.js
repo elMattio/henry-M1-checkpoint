@@ -332,7 +332,79 @@ function closureSum(numFijo) {
 //    console.log(anagrams); // [ 'abc', 'acb', 'bac', 'bca', 'cab', 'cba' ]
 
 var allAnagrams = function(string, array, index) {
+  var array = array || [];
+  var index = index || "";
+  if(string.length === 1) {
+    if(index !== "") {
+      array.push(index)
+    }
+    array.push(string);
+  } else if( string.length > 1) {
+    for(let i = 0; i < string.length; i++) {
+      var newString = "";
+      var newIndex = index + string.charAt(i);
+      for(let j = 0; j < string.length; j++) {
+        if(i !== j) {
+          newString = newString + string.charAt(j);
+        }
+      }
+      if(index !== "") {
+        array.push(index);
+      }
+      array.push(string.charAt(i));
+      array.push(newString);
+      allAnagrams(newString, array, newIndex);
+    }
+  }
+  var aux = "";
+  for(i = 0; i < array.length; i++) {
+    aux = aux + array[i];
+  }
+  var otroArray = [];
+  while(aux.length >= string.length) {
+    var elemento = "";
+    for(let i = 0; i < string.length; i++) {
+      elemento = elemento + aux.charAt(i);
+    }
+    otroArray.push(elemento);
+    aux = aux.slice(string.length);
+  }
+  var i = 0;
+  while(i < otroArray.length) {
+    var j = i + 1;
+    while(j < otroArray.length) {
+      if(otroArray[i] === otroArray[j]) {
+        otroArray.splice(j, 1);
+      } else {
+        j++;
+      }
+    }
+    i++;
+  }
+  return otroArray;
 }
+      
+
+
+//BinarySearchTree.prototype.insert = function(string) {
+//  if(string.length === 1) {
+//     if(this.left === null) {
+//     this.left = new BinarySearchTree(string)
+//   } else if(this.right === null){
+//     this.right = new BinarySearchTree(string);
+//   } else if(this.right !== null) {
+//     this.right.insert(string)
+//   }
+//  }
+//  if(string.length > 1) {
+//     if(this.right === null) {
+//     this.right = new BinarySearchTree(string)
+//     }
+//     else {
+//     this.right.insert(string)
+//     }
+//  }
+//  }
 
 module.exports = {
   objContains,
